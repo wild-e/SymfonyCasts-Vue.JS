@@ -3,7 +3,9 @@
     <div class="container-fluid">
         <div class="row">
             <aside class="col-xs-12 col-3">
-                <div class="sidebar p-3 mb-5">
+                <!-- Notice that vue accepts arrays for styling -->
+                <!-- colon : is a shortcut for v-bind  -->
+                <div :class="[$style.sidebar, 'p-3 mb-5']">
                     <h5 class="text-center">
                         Categories
                     </h5>
@@ -39,12 +41,12 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-12 col-6 mb-2 pb-2">
-                        TODO - load some products!
+                        TODO - load some products!!!!
                     </div>
                 </div>
                 <div class="row">
                     <!-- kebab-case also work and is nicer in template rendering -->
-                    <legend-component title="Yooooooooo" />
+                    <legend-component :title="legend" />
                 </div>
             </div>
         </div>
@@ -52,7 +54,7 @@
 </template>
 
 <script>
-import LegendComponent from "../components/legend";
+import LegendComponent from '../components/legend';
 
 export default {
     // name is for debugging
@@ -61,11 +63,11 @@ export default {
         LegendComponent,
     },
     // data is just about creating variables
-    // data() {
-    //     return {
-    //         legend: 'Shipping takes 10-12 weeks, and products probably won\'t work',
-    //     };
-    // },
+    data() {
+        return {
+            legend: 'Shipping takes 10-12 weeks, and products probably won\'t work',
+        };
+    },
     //  Shorter syntax where you can't use .this variable
     // data: () => ({
     //     legend: 'Shipping takes 10-12 weeks, and products probably won\'t work',
@@ -73,7 +75,9 @@ export default {
 };
 </script>
 
-<style  lang="scss">
+<style  lang="scss" module>
+// module is to add random string after eache of underneath classes in
+// order not to mess up with other classes in other files
 @import '../../scss/components/light-component';
 
 .sidebar {
