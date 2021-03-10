@@ -11,6 +11,7 @@ export default {
     // can also be use as a variable in template
     props: {
         title: {
+            // Vue basic validations for this object
             type: String,
             required: true,
         },
