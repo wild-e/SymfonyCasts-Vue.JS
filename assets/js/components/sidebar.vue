@@ -1,35 +1,42 @@
 <template>
     <!-- Notice that vue accepts arrays for styling -->
     <!-- colon : is a shortcut for v-bind  -->
-    <div
-        :class="[$style.sidebar, 'p-3 mb-5']"
+    <!-- <div
+        :class="[$style.component, 'p-3 mb-5']"
         :style="{ width: collapsed ? '70px' : 'auto' }"
+    > -->
+    <div
+        :class="componentClass"
     >
-        <!-- style accepts an object and each of its properties correspond a style rule -->
-        <h5 class="text-center">
-            Categories
-        </h5>
-        <ul class="nav flex-column mb4">
-            <li class="nav-item">
-                <a
-                    class="nav-link"
-                    href="/"
-                >All Products</a>
-            </li>
-            <li
-                v-for="(category, index) in categories"
-                :key="index"
-                class="nav-item"
-            >
-                <a
-                    class="nav-link"
-                    :href="category.link"
+        <!-- Same as <div v-show="!collapsed">  == display:none -->
+        <!-- v-if is more performant  -->
+        <div v-if="!collapsed">
+            <!-- style accepts an object and each of its properties correspond a style rule -->
+            <h5 class="text-center">
+                Categories
+            </h5>
+            <ul class="nav flex-column mb4">
+                <li class="nav-item">
+                    <a
+                        class="nav-link"
+                        href="/"
+                    >All Products</a>
+                </li>
+                <li
+                    v-for="(category, index) in categories"
+                    :key="index"
+                    class="nav-item"
                 >
-                    {{ category.name }}
-                </a>
-            </li>
-        </ul>
-        <hr>
+                    <a
+                        class="nav-link"
+                        :href="category.link"
+                    >
+                        {{ category.name }}
+                    </a>
+                </li>
+            </ul>
+            <hr>
+        </div>
         <div class="d-flex justify-content-end">
             <button
                 class="btn btn-secondary btn-sm py-2 px-3"
@@ -45,12 +52,13 @@
 <script>
 export default {
     name: 'Sidebar',
-    props: {
-        testProp: {
-            type: String,
-            default: 'A am default value',
-        },
-    },
+    // data and props are turned into getter and setter to re-render components when their changing
+    // props: {
+    //     testProp: {
+    //         type: String,
+    //         default: 'A am default value',
+    //     },
+    // },
     data() {
         return {
             collapsed: false,
@@ -67,14 +75,30 @@ export default {
         };
     },
     // Vue call this function when instance is being created
-    created() {
-        console.log(this);
-        // this is an object with a lot of properties -- only use ones starting with $ 
+    // created() {
+    //     console.log(this);
+    //     // this is an object with a lot of properties -- only use ones starting with $
+    // },
+    computed: {
+        /**
+         * @returns string[]
+         */
+        componentClass() {
+            const classes = [this.$style.component, 'p-3', 'mb-5'];
+
+            if (this.collapsed) {
+                classes.push(this.$style.collapsed);
+            }
+
+            return classes;
+        },
     },
     methods: {
         toggleCollapsed() {
             this.collapsed = !this.collapsed;
+            console.log(this.componentClass);
         },
+
     },
 };
 </script>
@@ -85,8 +109,12 @@ export default {
 @import '~styles/components/light-component';
 // don't forget ~ in view for style aliases
 
-.sidebar {
+.component {
     @include light-component;
+
+    &.collapsed {
+        width: 70px;
+    }
 
     ul {
         li a:hover {
