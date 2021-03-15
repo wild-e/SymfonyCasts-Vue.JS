@@ -6,7 +6,7 @@
         :style="{ width: collapsed ? '70px' : 'auto' }"
     > -->
     <div
-        :class="componentClass"
+        :class="[this.$style.component, 'p-3', 'mb-5']"
     >
         <!-- Same as <div v-show="!collapsed">  == display:none -->
         <!-- v-if is more performant  -->
@@ -40,7 +40,7 @@
         <div class="d-flex justify-content-end">
             <button
                 class="btn btn-secondary btn-sm py-2 px-3"
-                @click="toggleCollapsed"
+                @click="$emit('toggle-collapsed')"
                 v-text="collapsed ? '+' : '-'"
             />
             <!-- or  v-on:click="toggleCollapsed" -->
@@ -53,15 +53,15 @@
 export default {
     name: 'Sidebar',
     // data and props are turned into getter and setter to re-render components when their changing
-    // props: {
-    //     testProp: {
-    //         type: String,
-    //         default: 'A am default value',
-    //     },
-    // },
+    // never try to change values of prop. They're  meant to be read
+    props: {
+        collapsed: {
+            type: Boolean,
+            required: true,
+        },
+    },
     data() {
         return {
-            collapsed: false,
             categories: [
                 {
                     name: 'Dot Matrix Printers',
@@ -79,27 +79,27 @@ export default {
     //     console.log(this);
     //     // this is an object with a lot of properties -- only use ones starting with $
     // },
-    computed: {
-        /**
-         * @returns string[]
-         */
-        componentClass() {
-            const classes = [this.$style.component, 'p-3', 'mb-5'];
+    // computed: {
+    //     /**
+    //      * @returns string[]
+    //      */
+    //     componentClass() {
+    //         const classes = [this.$style.component, 'p-3', 'mb-5'];
 
-            if (this.collapsed) {
-                classes.push(this.$style.collapsed);
-            }
+    //         if (this.collapsed) {
+    //             classes.push(this.$style.collapsed);
+    //         }
 
-            return classes;
-        },
-    },
-    methods: {
-        toggleCollapsed() {
-            this.collapsed = !this.collapsed;
-            console.log(this.componentClass);
-        },
-
-    },
+    //         return classes;
+    //     },
+    // },
+    // methods: {
+    //     toggleCollapsed() {
+    //         this.$emit('toggle');
+    //         this.collapsed = !this.collapsed;
+    //         console.log(this.componentClass);
+    //     },
+    // },
 };
 </script>
 
@@ -112,9 +112,9 @@ export default {
 .component {
     @include light-component;
 
-    &.collapsed {
-        width: 70px;
-    }
+    // &.collapsed {
+    //     width: 70px;
+    // }
 
     ul {
         li a:hover {
