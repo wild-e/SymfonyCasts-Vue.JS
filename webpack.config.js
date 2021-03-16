@@ -40,7 +40,6 @@ Encore
     .addAliases({
         '@': path.resolve(__dirname, 'assets', 'js'),
         styles: path.resolve(__dirname, 'assets', 'scss'),
-
     })
 
     /*
