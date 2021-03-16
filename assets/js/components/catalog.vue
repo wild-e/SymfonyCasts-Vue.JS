@@ -1,4 +1,5 @@
 <template>
+    <!-- This is a smart component. (like a controller in symfony) it holds the logic -->
     <!-- for a component you have to create an outer element -->
     <div>
         <div class="row">
@@ -37,8 +38,8 @@ export default {
             legend: 'Shipping takes 10-12 weeks, and products probably won\'t work',
         };
     },
-    // callback event :do stuff just after a component is mounted in the DOM
-    async mounted() {
+    // callback event -> do stuff just after a component is mounted in the DOM
+    async created() {
         // axios.get returns a promise
     //     axios.get('/api/products').then((response) => {
     //         console.log(response);
