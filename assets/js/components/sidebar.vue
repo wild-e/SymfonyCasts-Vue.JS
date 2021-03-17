@@ -6,7 +6,7 @@
         :style="{ width: collapsed ? '70px' : 'auto' }"
     > -->
     <div
-        :class="[this.$style.component, 'p-3', 'mb-5']"
+        :class="[$style.component, 'p-3', 'mb-5']"
     >
         <!-- Same as <div v-show="!collapsed">  == display:none -->
         <!-- v-if is more performant  -->
@@ -18,7 +18,10 @@
             <ul class="nav flex-column mb4">
                 <li class="nav-item">
                     <a
-                        class="nav-link"
+                        :class="{
+                            'nav-link': true,
+                            'selected': currentCategoryId === null,
+                        }"
                         href="/"
                     >All Products</a>
                 </li>
@@ -28,7 +31,10 @@
                     class="nav-item"
                 >
                     <a
-                        class="nav-link"
+                        :class="{
+                            'nav-link': true,
+                            'selected': category['@id'] === currentCategoryId,
+                        }"
                         :href="`/category/${category.id}`"
                     >
                         {{ category.name }}
@@ -60,6 +66,10 @@ export default {
         collapsed: {
             type: Boolean,
             required: true,
+        },
+        currentCategoryId: {
+            type: String,
+            default: null,
         },
     },
     data() {
@@ -106,16 +116,14 @@ export default {
 @import '~styles/components/light-component';
 // don't forget ~ in view for style aliases
 
-.component {
+.component :global {
     @include light-component;
-
-    // &.collapsed {
-    //     width: 70px;
-    // }
-
     ul {
         li a:hover {
             background: $blue-component-link-hover;
+        }
+        li a.selected {
+            background: $light-component-border;
         }
     }
 }
