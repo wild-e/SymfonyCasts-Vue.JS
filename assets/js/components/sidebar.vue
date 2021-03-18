@@ -15,6 +15,9 @@
             <h5 class="text-center">
                 Categories
             </h5>
+
+            <loading v-show="loading" />
+
             <ul class="nav flex-column mb4">
                 <li class="nav-item">
                     <a
@@ -56,10 +59,14 @@
 </template>
 
 <script>
-import axios from 'axios';
+import { fetchCategories } from '@/services/categories-service';
+import Loading from '@/components/loading';
 
 export default {
     name: 'Sidebar',
+    components: {
+        Loading,
+    },
     // data and props are turned into getter and setter to re-render components when their changing
     // never try to change values of prop. They're  meant to be read
     props: {
@@ -75,10 +82,16 @@ export default {
     data() {
         return {
             categories: [],
+
         };
     },
+    computed: {
+        loading() {
+            return this.categories.length === 0;
+        },
+    },
     async created() {
-        const response = await axios.get('/api/categories');
+        const response = await fetchCategories();
         this.categories = response.data['hydra:member'];
     },
     // Vue call this function when instance is being created
