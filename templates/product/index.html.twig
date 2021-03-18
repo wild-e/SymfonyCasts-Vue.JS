@@ -14,11 +14,12 @@
 
     <script>
         {% if currentCategoryId is defined %}
-            // set a global js variable
             window.currentCategoryId = '{{ currentCategoryId|e('js') }}';
         {% else %}
             window.currentCategoryId = null;
         {% endif %}
+
+        window.categories = {{ categories|jsonld }};
     </script>
     {{ encore_entry_script_tags('products')}}
 {% endblock %}

@@ -10,7 +10,7 @@
                 />
             </aside>
             <div :class="contentClass">
-                <catalog-component />
+                <catalog-component :current-category-id="currentCategoryId" />
             </div>
         </div>
     </div>
@@ -42,6 +42,8 @@ export default {
     data() {
         return {
             sidebarCollapsed: false,
+            categories: [],
+            currentCategoryId: getCurrentCategoryId(),
         };
     },
     computed: {
@@ -50,9 +52,6 @@ export default {
         },
         contentClass() {
             return this.sidebarCollapsed ? 'col-xs-12 col-11' : 'col-xs-12 col-9';
-        },
-        currentCategoryId() {
-            return getCurrentCategoryId;
         },
     },
     methods: {
